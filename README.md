@@ -9,7 +9,7 @@
 
 
 ### 시나리오
-- back-ws post api
+- back-ws post api /start /error /ping /stop 일단 단순 문자열 리턴으로만 처리?
 - post api 들어올때 send 발생
 - front-ws 는 client server 두개가 떠있어야함
 - subscription 발생 시(ws-client) 다시 열려있는 서버(ws-server)에서 send 발생
