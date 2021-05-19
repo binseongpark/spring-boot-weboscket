@@ -6,3 +6,11 @@
 ### todo list
 - vue 에다가 sockjs, stompclient 붙이기
 - websocket server 만들기
+
+
+### 시나리오
+- back-ws post api
+- post api 들어올때 send 발생
+- front-ws 는 client server 두개가 떠있어야함
+- subscription 발생 시(ws-client) 다시 열려있는 서버(ws-server)에서 send 발생
+- payload encoding 문제 해결하기
