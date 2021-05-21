@@ -3,6 +3,10 @@
 - https://github.com/aliakh/demo-spring-websocket - spring-boot websocket demo
 - https://github.com/khaledkucse/usaskchat - usaskchat websocket sample github
 - https://velog.io/@koseungbin/WebSocket - weboscket concept blog(정독해보기)
+- https://handcoding.tistory.com/171
+- https://daddyprogrammer.org/post/4731/spring-websocket-chatting-server-redis-pub-sub/
+- https://kouzie.github.io/spring/Spring-Boot-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B6%80%ED%8A%B8-WebSocket/#
+- https://github.com/codej99/websocket-chat-server
 
 ### todo list
 - vue 에다가 sockjs, stompclient 붙이기
