@@ -16,9 +16,9 @@ public class WebSocketServerController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
-    @SubscribeMapping("/ping")
-    public String listOfRoom() {
-        System.out.println("pong");
-        return "pong😘";
-    }
+//    @SubscribeMapping("/ping")
+//    public String listOfRoom() {
+//        System.out.println("pong");
+//        return "pong😘";
+//    }
 }

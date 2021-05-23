@@ -4,6 +4,8 @@ import com.example.frontws.Controller.WebSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.converter.SimpleMessageConverter;
+import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -22,11 +24,11 @@ public class WebSocketConfiguration {
     public WebSocketStompClient webSocketStompClient(WebSocketClient webSocketClient,
                                                      StompSessionHandler stompSessionHandler) {
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
-//        webSocketStompClient.setMessageConverter(new StringMessageConverter());
+        webSocketStompClient.setMessageConverter(new StringMessageConverter());
 //        webSocketStompClient.setMessageConverter(new SimpleMessageConverter());
-        webSocketStompClient.setMessageConverter(new MappingJackson2MessageConverter());
+//        webSocketStompClient.setMessageConverter(new MappingJackson2MessageConverter());
 //        webSocketStompClient.connect("http://localhost:8080/websocket-sockjs-stomp", stompSessionHandler);
-        webSocketStompClient.connect("http://localhost:8080/usaskchat", stompSessionHandler);
+        webSocketStompClient.connect("http://localhost:20000/back-ws", stompSessionHandler);
         return webSocketStompClient;
     }
 

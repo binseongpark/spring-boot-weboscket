@@ -26,7 +26,7 @@ public class WebSocketHandler extends StompSessionHandlerAdapter {
 //        session.subscribe("/queue/errors", this);
 //        session.subscribe("/topic/periodic", this);
 //        session.subscribe("/chatapp/chat/rooms", this);
-        session.subscribe("/chatapp/chat/rooms", new StompFrameHandler() {
+        session.subscribe("/recv", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 logger.info("getPayloadType");
@@ -40,39 +40,10 @@ public class WebSocketHandler extends StompSessionHandlerAdapter {
             }
         });
 
-        session.subscribe("/room/123", new StompFrameHandler() {
-            @Override
-            public Type getPayloadType(StompHeaders stompHeaders) {
-                return Object.class;
-            }
-
-            @Override
-            public void handleFrame(StompHeaders stompHeaders, Object o) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                Base64.Decoder decoder = Base64.getDecoder();
-                //                    byte[] decoded = Base64.getDecoder().decode(o);
-//                    logger.info(Base64.getDecoder().decode(objectMapper.writeValueAsString(o)).toString());
-                byte[] encoded = new byte[0];
-                String stringEncoded = "";
-                Map<String, String> map = new HashMap<>();
-                try {
-//                    map = objectMapper.convertValue(o, new HashMap<String, String>);
-//                    stringEncoded = objectMapper.writeValueAsString(o);
-                    objectMapper.writeValueAsBytes(o);
-                    logger.info(new String(objectMapper.writeValueAsBytes(o)));
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-
-//                    logger.info(Base64.getEncoder().encodeToString(objectMapper.writeValueAsString(o).getBytes(StandardCharsets.UTF_8)));
-//                    Base64.getDecoder().decode(objectMapper.writeValueAsString(o).getBytes());
-//                    logger.info(Base64.getDecoder().decode(objectMapper.writeValueAsString(o).getBytes()));
-            }
-        });
 
         String message = "one-time message from client";
         logger.info("Client sends: {}", message);
-        session.send("/app/request", message);
+//        session.send("/app/request", message);
     }
 
     @Override
