@@ -13,7 +13,6 @@
 - vue 에다가 sockjs, stompclient 붙이기
 - websocket server 만들기
 
-
 ### 시나리오
 - back-ws post api /start /error /ping /stop 일단 단순 문자열 리턴으로만 처리?
 - post api 들어올때 send 발생
