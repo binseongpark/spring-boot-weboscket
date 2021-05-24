@@ -16,7 +16,7 @@
 - springboot websocket client -> server 로 보내는 api 만들기
 - vuejs 에서 다양한 시나리오. 화면을 보고있는 사람 표시. 작업중이면 버튼 막기
 - springboot client reconnect 방안 
-- 다른 messagequeue 예제 찾아보기
+- 다른 messagequeue 예제 찾아보기(rabbitmq, kafka)
 
 ### 시나리오
 
