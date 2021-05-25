@@ -31,7 +31,7 @@ public class WebSocketClientConfiguration {
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
         webSocketStompClient.setMessageConverter(new SimpleMessageConverter());
         webSocketStompClient.connect("http://localhost:10000/ws", stompSessionHandler);
-
+        
         return webSocketStompClient;
 
         // return webSocketConnection.connection();

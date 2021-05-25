@@ -3,6 +3,7 @@ package com.example.rediswsserver;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,12 @@ public class WebSocketController {
         // message.getMessage());
         redisPublisher.publish(webSocketRepository.getTopic(busId), "😘");
         // return "😘";
+    }
+
+    @MessageMapping("/ping-test")
+    @ResponseBody
+    public void sendMessage(String busId) {
+        redisPublisher.publish(webSocketRepository.getTopic("8618dbc9-71a1-4ae6-87e5-ef8131d9afa4"), "😘");
     }
 
     @SubscribeMapping("/subscribe")

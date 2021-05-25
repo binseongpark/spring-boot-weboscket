@@ -3,12 +3,16 @@ package com.example.rediswsclient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.*;
 
 import java.lang.reflect.Type;
 
 public class WebSocketEventListener extends StompSessionHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
+
+    @Autowired
+    StompClient stompClient;
 
     public WebSocketEventListener() {
         super();
@@ -27,6 +31,8 @@ public class WebSocketEventListener extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         super.afterConnected(session, connectedHeaders);
+
+//        stompClient.setSession(session);
 
         session.subscribe("/recv", new StompFrameHandler() {
             @Override
