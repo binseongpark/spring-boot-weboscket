@@ -34,11 +34,11 @@ public class WebSocketEventListener extends StompSessionHandlerAdapter {
 
 //        stompClient.setSession(session);
 
-        session.subscribe("/recv", new StompFrameHandler() {
+        session.subscribe("/sub/recv", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders stompHeaders) {
                 logger.info("getPayloadType");
-                return Object.class;
+                return String.class;
             }
 
             @Override

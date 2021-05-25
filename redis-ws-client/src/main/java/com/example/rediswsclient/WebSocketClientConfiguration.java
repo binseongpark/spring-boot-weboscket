@@ -3,6 +3,7 @@ package com.example.rediswsclient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.SimpleMessageConverter;
 import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -31,11 +32,11 @@ public class WebSocketClientConfiguration {
     public WebSocketStompClient webSocketStompClient(WebSocketClient webSocketClient,
                                                      StompSessionHandler stompSessionHandler) throws ExecutionException, InterruptedException {
         // webSocketStompClient.setMessageConverter(new StringMessageConverter());
-        // webSocketStompClient.setMessageConverter(new
-        // MappingJackson2MessageConverter());
+
 
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
 //        webSocketStompClient.setMessageConverter(new SimpleMessageConverter());
+//        webSocketStompClient.setMessageConverter(new MappingJackson2MessageConverter());
         webSocketStompClient.setMessageConverter(new StringMessageConverter());
 
         StompSession session = webSocketStompClient.connect("http://localhost:10000/ws", stompSessionHandler).get();

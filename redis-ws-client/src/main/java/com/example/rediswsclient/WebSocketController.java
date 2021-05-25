@@ -29,9 +29,10 @@ public class WebSocketController {
     @ResponseBody
     public String test() {
         String message = "dummy";
+        Object o = message;
 //        webSocketStompClient.c
 //        session.send("/ping-test", message);
-        stompClient.getSession().send("/pub/ping-test", message);
+        stompClient.getSession().send("/pub/ping-test", o);
 //        messagingTemplate.convertAndSend("/ping-test", "dummy");
         return "test";
     }
