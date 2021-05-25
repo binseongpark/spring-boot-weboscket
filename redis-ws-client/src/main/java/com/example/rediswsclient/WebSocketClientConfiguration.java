@@ -1,9 +1,13 @@
 package com.example.rediswsclient;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.SimpleMessageConverter;
+import org.springframework.messaging.converter.StringMessageConverter;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -14,24 +18,30 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Configuration
 public class WebSocketClientConfiguration {
-
     // @Autowired
     // WebSocketConnection webSocketConnection;
+    @Autowired
+    StompClient stompClient;
 
     @Bean
     public WebSocketStompClient webSocketStompClient(WebSocketClient webSocketClient,
-                                                     StompSessionHandler stompSessionHandler) {
+                                                     StompSessionHandler stompSessionHandler) throws ExecutionException, InterruptedException {
         // webSocketStompClient.setMessageConverter(new StringMessageConverter());
         // webSocketStompClient.setMessageConverter(new
         // MappingJackson2MessageConverter());
 
         WebSocketStompClient webSocketStompClient = new WebSocketStompClient(webSocketClient);
-        webSocketStompClient.setMessageConverter(new SimpleMessageConverter());
-        webSocketStompClient.connect("http://localhost:10000/ws", stompSessionHandler);
-        
+//        webSocketStompClient.setMessageConverter(new SimpleMessageConverter());
+        webSocketStompClient.setMessageConverter(new StringMessageConverter());
+
+        StompSession session = webSocketStompClient.connect("http://localhost:10000/ws", stompSessionHandler).get();
+
+        stompClient.setSession(session);
+
         return webSocketStompClient;
 
         // return webSocketConnection.connection();
