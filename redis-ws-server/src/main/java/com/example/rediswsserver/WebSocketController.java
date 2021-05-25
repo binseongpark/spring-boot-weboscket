@@ -37,8 +37,8 @@ public class WebSocketController {
 
     @MessageMapping("/ping-test")
     @ResponseBody
-    public void sendMessage(String busId) {
-        redisPublisher.publish(webSocketRepository.getTopic("8618dbc9-71a1-4ae6-87e5-ef8131d9afa4"), "😘");
+    public void sendMessage(String message) {
+        redisPublisher.publish(webSocketRepository.getTopic("8618dbc9-71a1-4ae6-87e5-ef8131d9afa4"), message);
     }
 
     @SubscribeMapping("/subscribe")

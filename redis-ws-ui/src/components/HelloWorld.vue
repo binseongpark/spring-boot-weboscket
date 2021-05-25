@@ -40,6 +40,7 @@ export default {
       // return
       let $vm = this;
 
+      // let socket = new SockJS("http://localhost:10000/ws");
       let socket = new SockJS("http://localhost:10000/ws");
       stompClient = Stomp.over(socket);
       stompClient.connect(

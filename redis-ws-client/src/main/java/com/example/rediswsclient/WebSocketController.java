@@ -27,13 +27,17 @@ public class WebSocketController {
 
     @GetMapping("/test")
     @ResponseBody
-    public String test() {
+    public String test() throws InterruptedException {
         String message = "dummy";
         Object o = message;
 //        webSocketStompClient.c
 //        session.send("/ping-test", message);
 //        stompClient.getSession().send("/pub/ping-test", o);
-        stompClient.getSession().send("/pub/ping-test", message);
+//        for (int i = 0; i < 1000; i++) {
+//            stompClient.getSession().send("/pub/ping-test", message + " " + i);
+//            Thread.sleep(10);
+//        }
+        stompClient.getSession().send("/pub/ping-test", message );
 //        messagingTemplate.convertAndSend("/ping-test", "dummy");
         return "test";
     }
