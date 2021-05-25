@@ -32,7 +32,8 @@ public class WebSocketController {
         Object o = message;
 //        webSocketStompClient.c
 //        session.send("/ping-test", message);
-        stompClient.getSession().send("/pub/ping-test", o);
+//        stompClient.getSession().send("/pub/ping-test", o);
+        stompClient.getSession().send("/pub/ping-test", message);
 //        messagingTemplate.convertAndSend("/ping-test", "dummy");
         return "test";
     }
