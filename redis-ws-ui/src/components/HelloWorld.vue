@@ -3,6 +3,7 @@
     <h2 class="status-h2" :class="{ connect: wsStatus, disconnect: !wsStatus }">
       {{ wsStatus ? "CONNECT" : "DISCONNECT" }}
     </h2>
+    <button @click="sendMessage">send</button>
     <ul class="wrapper">
       <li class="item" v-for="(item, index) in messages" :key="index">
         {{ item }}
@@ -71,6 +72,12 @@ export default {
         }
       );
     },
+    sendMessage() {
+      stompClient.send("/pub/sendMessage", {}, JSON.stringify({
+        busId: 'blah-id',
+        message: '샘플메세지'
+      }));
+    }
   },
 };
 </script>

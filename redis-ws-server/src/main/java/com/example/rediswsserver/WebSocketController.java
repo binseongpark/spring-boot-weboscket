@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +52,12 @@ public class WebSocketController {
     @ResponseBody
     public List<WebSocketBus> bus() {
         return webSocketRepository.findAllBus();
+    }
+
+    @MessageMapping("/sendMessage")
+    public void sendMessage(@Payload Message message) {
+        logger.info("send message");
+        logger.info(message.getBusId());
+        logger.info(message.getMessage());
     }
 }
