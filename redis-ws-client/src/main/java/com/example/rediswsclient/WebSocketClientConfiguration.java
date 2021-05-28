@@ -39,7 +39,7 @@ public class WebSocketClientConfiguration {
 //        webSocketStompClient.setMessageConverter(new MappingJackson2MessageConverter());
         webSocketStompClient.setMessageConverter(new StringMessageConverter());
 
-        StompSession session = webSocketStompClient.connect("http://localhost:10000/ws", stompSessionHandler).get();
+        StompSession session = webSocketStompClient.connect("http://localhost:9000/ws", stompSessionHandler).get();
 
         stompClient.setSession(session);
 

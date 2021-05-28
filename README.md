@@ -31,3 +31,144 @@
 - sockjs: WebSocket 과 유사한 객체를 제공하는 브라우저 JavaScript 라이브러리. websocket 을 연결할 수 없는 경우 다른 http 기반의 기술로 연결을 시도하는 방법을 지원.
 - https://github.com/sockjs/sockjs-client#supported-transports-by-browser-html-served-from-http-or-https - 브라우저 지원 범위
 - STOMP: Simple Text Oriented Messaging Protocol 의 약자. TCP 또는 WebSocket 같은 양방향 네트워크 프로토콜 기반으로 동작
+
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.stereotype.Component;
+
+@Component
+public class StompClient {
+    private StompSession session;
+
+    @PostConstruct
+    public void init() {
+        //
+    }
+
+    public StompSession getSession() {
+        System.out.println("@@@@ getSession: " + session);
+        return session;
+    }
+
+    public void setSession(StompSession session) {
+        this.session = session;
+    }
+}
+
+
+. . .
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.converter.StringMessageConverter;
+import org.springframework.messaging.simp.stomp.ConnectionLostException;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketHttpHeaders;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.RestTemplateXhrTransport;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
+
+
+@Component
+public class WsClient {
+
+    @Value("${spring.websocket.server}")
+    private String websocketServer;
+
+    @Autowired
+    StompClient stompClient;
+
+    @PostConstruct
+    public void init() {
+        connect();
+    }
+
+    public void connect() {
+        System.out.println("connect");
+
+        List<Transport> transports = new ArrayList<>();
+        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
+        transports.add(new RestTemplateXhrTransport());
+
+        SockJsClient sockJsClient = new SockJsClient(transports);
+
+        WebSocketStompClient client = new WebSocketStompClient(sockJsClient);
+        client.setMessageConverter(new StringMessageConverter());
+
+        StompSession session = null;
+
+        try {
+            session = client.connect("http://" + websocketServer + "/ws", new WsClientHandler()).get();
+        } catch (Exception e) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            } finally {
+                connect();
+            }
+        }
+        System.out.println("connect success");
+        System.out.println(session);
+
+        if (session != null) {
+            stompClient.setSession(session);
+        }
+    }
+
+    private class WsClientHandler extends StompSessionHandlerAdapter {
+
+        @Override
+        public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+            super.afterConnected(session, connectedHeaders);
+
+            System.out.println("web socket client connect");
+        }
+
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            return super.getPayloadType(headers);
+        }
+
+        @Override
+        public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload,
+                Throwable exception) {
+            super.handleException(session, command, headers, payload, exception);
+        }
+
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            super.handleFrame(headers, payload);
+        }
+
+        @Override
+        public void handleTransportError(StompSession session, Throwable exception) {
+            super.handleTransportError(session, exception);
+
+            System.out.println("@@@@ raise handleTransportError");
+            if (exception instanceof ConnectionLostException) {
+                System.out.println("handleTransportError connect");
+                if (session.isConnected()) {
+                    session.disconnect();
+                }
+
+                connect();
+            }
+        }
+
+    }
+}

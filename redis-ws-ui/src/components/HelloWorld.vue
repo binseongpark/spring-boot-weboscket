@@ -42,7 +42,7 @@ export default {
       let $vm = this;
 
       // let socket = new SockJS("http://localhost:10000/ws");
-      let socket = new SockJS("http://localhost:10000/ws");
+      let socket = new SockJS("http://localhost:9000/ws");
       stompClient = Stomp.over(socket);
       stompClient.connect(
         {},
@@ -52,6 +52,17 @@ export default {
           $vm.wsStatus = true;
 
           stompClient.subscribe("/sub/recv", function(val) {
+            // console.log("/recv");
+            // console.log(val);
+            $vm.messages.push(val.body);
+          });
+          // stompClient.subscribe("/mesvcc-fe/sub/log", function(val) {
+          stompClient.subscribe("/sub/log", function(val) {
+            // console.log("/recv");
+            // console.log(val);
+            $vm.messages.push(val.body);
+          });
+          stompClient.subscribe("/sub/notification", function(val) {
             // console.log("/recv");
             // console.log(val);
             $vm.messages.push(val.body);

@@ -25,11 +25,11 @@ public class WebSocketController {
     @Autowired
     StompClient stompClient;
 
-    @GetMapping("/test")
+    @GetMapping("/websocket/send")
     @ResponseBody
     public String test() throws InterruptedException {
-        String message = "dummy";
-        Object o = message;
+//        String message = "dummy";
+//        Object o = message;
 //        webSocketStompClient.c
 //        session.send("/ping-test", message);
 //        stompClient.getSession().send("/pub/ping-test", o);
@@ -37,8 +37,14 @@ public class WebSocketController {
 //            stompClient.getSession().send("/pub/ping-test", message + " " + i);
 //            Thread.sleep(10);
 //        }
-        stompClient.getSession().send("/pub/ping-test", message );
+//        stompClient.getSession().send("/pub/ping-test", message);
 //        messagingTemplate.convertAndSend("/ping-test", "dummy");
+
+        SocketMessage message   = SocketMessage.builder().topic("log").message("log test").build();
+        stompClient.getSession().send("/pub/message", Util.jacksonBeanToJson(message));
+
+        message   = SocketMessage.builder().topic("notification").message("notification test").build();
+        stompClient.getSession().send("/pub/message", Util.jacksonBeanToJson(message));
         return "test";
     }
 }
